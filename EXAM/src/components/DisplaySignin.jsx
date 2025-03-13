@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Alert from "./Alert.jsx";
 import { useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_URL;
+// const API = process.env.VITE_API_URL;
+
 const DisplayAuth = () => {
   const navigate = useNavigate();
   const [alert, setAlert] = useState(null);
@@ -18,7 +21,7 @@ const DisplayAuth = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/v1/account/login", {
+      const response = await fetch(`${API}/account/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,6 +32,8 @@ const DisplayAuth = () => {
 
       const res = await response.json();
 
+      console.log(res);
+
       if (res.success) {
         sessionStorage.setItem("username", res.data.username);
         sessionStorage.setItem("token", res.data.token);
@@ -38,6 +43,7 @@ const DisplayAuth = () => {
       }
     } catch (err) {
       console.log(err);
+      console.log(API);
     }
   };
 

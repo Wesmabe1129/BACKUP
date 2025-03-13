@@ -5,6 +5,7 @@ import backgroundMusic from "../assets/sounds/background-music.mp3";
 
 import { io } from "socket.io-client";
 import CountDown from "./CountDown";
+import DrawNumber from "./DrawNumber.jsx";
 
 const getUsername = () => sessionStorage.getItem("username");
 
@@ -26,22 +27,6 @@ const DisplayHome = () => {
   const decreaseQuantity = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
   };
-
-  // useEffect(() => {
-  //   socket.on("countdown", (timeLeft) => {
-  //     setTimeLeft(timeLeft);
-  //     console.log(timeLeft);
-  //   });
-  // });
-  // useEffect(() => {
-  //   socket.on("draw", (numbers) => {
-  //     setDrawNumbers(numbers); // Update the state with the latest draw
-  //   });
-
-  //   return () => {
-  //     socket.off("draw");
-  //   };
-  // }, []);
 
   useEffect(() => {
     // ✅ Create audio only once
@@ -201,25 +186,7 @@ const DisplayHome = () => {
         </h1>
       </div>
 
-      <div
-        className="flex flex-column justify-center"
-        style={{ marginTop: -40 }}
-      >
-        {drawNumbers.map((num, index) => (
-          <div
-            key={index}
-            className="p-15 bg-no-repeat mr-2 bg-contain w-[110px] h-[110px]"
-            style={{
-              backgroundImage: "url('src/assets/images/winning-bg.png')",
-              fontFamily: "'Jersey 20', sans-serif",
-            }}
-          >
-            <p className="text-black mt-4 ml-6 text-7xl">
-              {num} {/* Show "--" before draw */}
-            </p>
-          </div>
-        ))}
-      </div>
+      <DrawNumber />
 
       {/* FRAME WRAPPER */}
       <div className="flex w-full h-auto justify-between">

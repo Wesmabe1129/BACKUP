@@ -9,10 +9,8 @@ const CountDown = () => {
   const [timeLeft, setTimeLeft] = useState("00"); // Start at 60 seconds
 
   useEffect(() => {
-    socket.emit("join", "4001");
-
     socket.on("countdown", (timeLeft) => {
-      console.log(`Received countdown in Room 3001: ${timeLeft}s`);
+      // console.log(`Received countdown in Room 3001: ${timeLeft}s`);
       setTimeLeft(timeLeft);
     });
 
@@ -28,7 +26,7 @@ const CountDown = () => {
         fontSize: "20px",
       }}
       className={`absolute top-5 right-60 text-white mr-10  px-6 py-1 rounded-lg ${
-        timeLeft === "Countdown finished" ? "bg-[#C14600]" : "bg-[#41644A]"
+        timeLeft === "Countdown finished" ? "bg-[#C14600]" : "bg-[#E8AC41]"
       }`}
     >
       NEXT DRAW IN: {timeLeft}s

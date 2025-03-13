@@ -198,7 +198,7 @@ const DisplayAccount = () => {
       {/*WITHDRAW Popup */}
       {popupWithdraw && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-[#FFCF50] p-20 rounded-lg shadow-lg text-center">
+          <div className="bg-[#E8AC41] p-20 rounded-lg shadow-lg text-center">
             <h2 className="text-lg font-semibold">ENTER AMOUNT TO WITHDRAW</h2>
             <div className="inset-0">
               <input
@@ -226,7 +226,7 @@ const DisplayAccount = () => {
       {/*TOP UP Popup */}
       {popupTopUp && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-[#FFCF50] p-20 rounded-lg shadow-lg text-center">
+          <div className="bg-[#E8AC41] p-20 rounded-lg shadow-lg text-center">
             <h2 className="text-lg font-semibold">ENTER AMOUNT TO TOP-UP</h2>
             <div className="">
               <input
