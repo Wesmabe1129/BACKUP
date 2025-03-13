@@ -1,7 +1,6 @@
-const API = import.meta.env.VITE_API_URL;
-const fetchAccountData = async () => {
+const fethcDrawData = async () => {
   try {
-    const response = await fetch(`${API}/account/`, {
+    const response = await fetch("http://localhost:5000/v1/draw/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -23,4 +22,4 @@ const fetchAccountData = async () => {
   }
 };
 
-export default fetchAccountData;
+export default fethcDrawData;
