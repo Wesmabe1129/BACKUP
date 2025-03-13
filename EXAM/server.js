@@ -1,3 +1,6 @@
+/* eslint no-restricted-globals: ["error", "event"] */
+/* global process */
+
 import fs from "node:fs";
 import path from "node:path";
 import { createServer } from "node:http";
@@ -6,17 +9,22 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import { Server } from "socket.io";
 
+import { startCountdown } from "./public/startCountdown.js";
+
 const IS_PRODUCTION = process.env.ENV === "production";
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-const WS_PORT = process.env.WS_PORT
-  ? parseInt(process.env.WS_PORT)
-  : PORT + 1000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 async function createCustomServer() {
   const app = express();
   const server = createServer(app);
-  const io = new Server(server);
+  const io = new Server(server, {
+    cors: {
+      origin: "*", // ✅ Allow frontend URLs
+      methods: ["GET", "POST"],
+    },
+  });
 
   let vite;
 
@@ -24,12 +32,7 @@ async function createCustomServer() {
     app.use(express.static(path.resolve(__dirname, "./dist/client/")));
   } else {
     vite = await createViteServer({
-      server: {
-        middlewareMode: true,
-        hmr: {
-          port: WS_PORT, // ✅ Each instance gets a unique WebSocket port
-        },
-      },
+      server: { middlewareMode: true },
       appType: "custom",
       build: {
         ssr: true,
@@ -53,7 +56,6 @@ async function createCustomServer() {
       );
 
       let render, template;
-      console.log("render", IS_PRODUCTION);
 
       if (IS_PRODUCTION) {
         template = index;
@@ -76,13 +78,15 @@ async function createCustomServer() {
     }
   });
 
-  io.on("connection", () => {
+  io.on("connection", (socket) => {
     console.log("user connected");
+    startCountdown(io);
+
+    socket.emit("welcome", "A message from the server");
   });
 
-  server.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
-  });
+  console.log("console", PORT);
+  server.listen(PORT);
 }
 
 createCustomServer();

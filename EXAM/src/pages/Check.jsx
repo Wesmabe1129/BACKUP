@@ -1,11 +1,10 @@
+import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Check = () => {
   const navigate = useNavigate();
-  const userLoggedIn =
-    localStorage.getItem("account_id") && localStorage.getItem("token");
-
+  const userLoggedIn = "";
   useEffect(() => {
     if (userLoggedIn) {
       navigate("/home");

@@ -1,13 +1,9 @@
 import React from "react";
-import { useState } from "react";
-import { StrictMode } from "react";
-import { Routes, Route } from "react-router-dom"; // ✅ Fix: Use default import for CommonJS
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import "./index.css";
+import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+// import "./App.css";
+import useSocket from "./hooks/useSocket.js";
 
-// Import Pages
 import Check from "./pages/Check.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import SignIn from "./pages/SignIn.jsx";
@@ -20,22 +16,29 @@ import PageNotFound from "./pages/PageNotFound.jsx";
 
 function App() {
   const [count, setCount] = useState(0);
+  const { isConnected, socket } = useSocket();
+
+  useEffect(() => {
+    if (!isConnected) return;
+
+    socket.on("welcome", (data) => {
+      console.log("[ws] welcome", data);
+    });
+  }, [isConnected, socket]);
 
   return (
-    <>
-      <Routes>
-        {/* Routes Section */}
-        <Route path="/" element={<Check />} />
-        <Route path="/minute-lotto" element={<LandingPage />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/lotto" element={<Lotto />} />
-        <Route path="/balance" element={<Balance />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/history" element={<History />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </>
+    <Routes>
+      {/* Routes Section */}
+      <Route path="/" element={<Check />} />
+      <Route path="/minute-lotto" element={<LandingPage />} />
+      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/lotto" element={<Lotto />} />
+      <Route path="/balance" element={<Balance />} />
+      <Route path="/account" element={<Account />} />
+      <Route path="/history" element={<History />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
 }
 
